@@ -27,7 +27,7 @@ app.get('/',(req,res)=>{
 })
 
 // socket
-const io = new Server({cors:"http://localhost:3000" ,    methods: ['GET', 'POST'],
+const io = new Server({cors:"https://futrolearnacademy-4wjr.onrender.com" ,    methods: ['GET', 'POST'],
 })
 
 
@@ -96,10 +96,10 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
         io.emit('getUsers', users);
     });
     io.emit('getUsers', socket.userId);
-});
-const Sockets = process.env.Sockets || 9000    
-io.listen(Sockets)
+});    
+
 const Port = 5000 || process.env.Port
 app.listen(Port,(req,res)=>{
     console.log( `http://localhost:${Port}`)
 })
+io.listen(Port)
