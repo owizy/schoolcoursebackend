@@ -97,7 +97,7 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
     });
     io.emit('getUsers', socket.userId);
 });    
-const  socket = 5000 || process.env.socket
+const  socket = 9000 || process.env.socket
 
 io.listen(socket)
 
