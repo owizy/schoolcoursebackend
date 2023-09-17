@@ -9,6 +9,7 @@ import UserModel from "./Models/UserModel.js"
 import { Server } from "socket.io"
 import ConversationModel from "./Models/Conversation.js"
 import MessageModel from "./Models/Message.js"
+
 dotenv.config()
 const app= express()
 mongoose.connect(process.env.Db_Connect).then(()=>{
@@ -102,6 +103,14 @@ const  socket = 9000 || process.env.socket
 io.listen(socket)
 
  const Port = 5000 || process.env.Port
-app.listen(Port,(req,res)=>{
+
+const httpServer = app.listen(Port,(req,res)=>{
     console.log( `http://localhost:${Port}`)
 })
+
+const io = new Server(httpServer);
+
+io.on("connection", (socket) => {
+  console.log("A user connected to the WebSocket.");
+  // Handle WebSocket events here
+});
