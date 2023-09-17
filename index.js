@@ -27,9 +27,7 @@ app.get('/',(req,res)=>{
     res.send("Welcome to  FutrolearnAcademy")
 })
 
-// socket
-const io = new Server({cors:"https://futrolearnacademy-4wjr.onrender.com" ,    methods: ['GET', 'POST'],
-})
+
 
 
 let users = [];
@@ -99,18 +97,13 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
     io.emit('getUsers', socket.userId);
 });    
 const  socket = 9000 || process.env.socket
-
+// socket
+const io = new Server({cors:"https://futrolearnacademy-4wjr.onrender.com" ,    methods: ['GET', 'POST'],
+})
 io.listen(socket)
 
- const Port = 5000 || process.env.Port
-
+const Port = 5000 || process.env.Port
 const httpServer = app.listen(Port,(req,res)=>{
     console.log( `http://localhost:${Port}`)
 })
 
-const io = new Server(httpServer);
-
-io.on("connection", (socket) => {
-  console.log("A user connected to the WebSocket.");
-  // Handle WebSocket events here
-});
