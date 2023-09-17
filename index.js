@@ -97,9 +97,11 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
     });
     io.emit('getUsers', socket.userId);
 });    
+const  socket = 5000 || process.env.socket
 
-const Port = 5000 || process.env.Port
+io.listen(socket)
+
+ const Port = 5000 || process.env.Port
 app.listen(Port,(req,res)=>{
     console.log( `http://localhost:${Port}`)
 })
-io.listen(Port)
