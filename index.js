@@ -27,18 +27,18 @@ app.get('/',(req,res)=>{
     res.send("Welcome to  FutrolearnAcademy")
 })
 
-const  socket = 9000 || process.env.socket
-io.listen(socket)
-
 const Port = 5000 || process.env.Port
 const httpServer = app.listen(Port,(req,res)=>{
     console.log( `http://localhost:${Port}`)
 })
-
-
 // socket
 const io = new Server({ httpServer,    methods: ['GET', 'POST'],
 })
+const  socket = 9000 || process.env.socket
+io.listen(socket)
+
+
+
 
 let users = [];
 io.on('connection', (socket)=>{
