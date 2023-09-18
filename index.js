@@ -9,7 +9,6 @@ import UserModel from "./Models/UserModel.js"
 import { Server } from "socket.io"
 import ConversationModel from "./Models/Conversation.js"
 import MessageModel from "./Models/Message.js"
-
 dotenv.config()
 const app= express()
 mongoose.connect(process.env.Db_Connect).then(()=>{
@@ -27,17 +26,9 @@ app.get('/',(req,res)=>{
     res.send("Welcome to  FutrolearnAcademy")
 })
 
-const Port = 5000 || process.env.Port
-const httpServer = app.listen(Port,(req,res)=>{
-    console.log( `http://localhost:${Port}`)
-})
 // socket
-const io = new Server({ httpServer,    methods: ['GET', 'POST'],
+const io = new Server({cors:"http://localhost:3000" ,    methods: ['GET', 'POST'],
 })
-const  socket = 9000 || process.env.socket
-io.listen(socket)
-
-
 
 
 let users = [];
@@ -105,4 +96,10 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
         io.emit('getUsers', users);
     });
     io.emit('getUsers', socket.userId);
-});    
+});
+const Sockets = process.env.Sockets || 9000    
+io.listen(Sockets)
+const Port = 5000 || process.env.Port
+app.listen(Port,(req,res)=>{
+    console.log( `http://localhost:${Port}`)
+})
