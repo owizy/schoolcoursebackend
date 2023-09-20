@@ -6,8 +6,7 @@ import { UserRouter } from "./Routes/UserRoute.js"
 import MessageRoute from "./Routes/MessageRoute.js"
 import ConversationRoute from "./Routes/ControllerRoute.js"
 import UserModel from "./Models/UserModel.js"
-import http from 'http';
-import { Server as SocketIOServer } from 'socket.io';
+import { Server } from "socket.io";
 import ConversationModel from "./Models/Conversation.js"
 import MessageModel from "./Models/Message.js"
 dotenv.config()
@@ -28,10 +27,7 @@ app.get('/',(req,res)=>{
 })
 
 // socket
-const server = http.createServer(app);
-const io = new SocketIOServer(server);
-
-
+const io = new Server({cors:"http://localhost:3000"})
 
 let users = [];
 io.on('connection', (socket)=>{
@@ -99,7 +95,10 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
     });
     io.emit('getUsers', socket.userId);
 });
-const port = process.env.PORT || 5000;
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+
+const Port = process.env.Port || 8000
+const Sockets = process.env.Sockets || 9000      
+io.listen(Sockets)
+app.listen(Port,()=>{
+    console.log("Successful connected to : " + Port)
+}) 
