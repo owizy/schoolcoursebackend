@@ -35,7 +35,7 @@ const io = new SocketIOServer(server);
 
 let users = [];
 io.on('connection', (socket)=>{
-    // console.log('User connected', socket.id);
+     console.log('User connected', socket.id);
     socket.on('addUser', userId => {
         const isUserExist = users.find(user => user.userId === userId);
         if (!isUserExist) {
