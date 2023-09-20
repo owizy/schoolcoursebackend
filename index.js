@@ -27,7 +27,7 @@ app.get('/',(req,res)=>{
 })
 
 // socket
-const io = new Server({cors:"http://localhost:3000" ,    methods: ['GET', 'POST'],
+const io = new Server({cors:"https://futrolearnacademy-server.onrender.com" ,    methods: ['GET', 'POST'],
 })
 
 
