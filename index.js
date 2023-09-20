@@ -6,7 +6,8 @@ import { UserRouter } from "./Routes/UserRoute.js"
 import MessageRoute from "./Routes/MessageRoute.js"
 import ConversationRoute from "./Routes/ControllerRoute.js"
 import UserModel from "./Models/UserModel.js"
-import { Server } from "socket.io"
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
 import ConversationModel from "./Models/Conversation.js"
 import MessageModel from "./Models/Message.js"
 dotenv.config()
@@ -27,8 +28,9 @@ app.get('/',(req,res)=>{
 })
 
 // socket
-const io = new Server({cors:"https://futrolearnacademy-server.onrender.com" ,    methods: ['GET', 'POST'],
-})
+const server = http.createServer(app);
+const io = new SocketIOServer(server);
+
 
 
 let users = [];
@@ -97,9 +99,7 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
     });
     io.emit('getUsers', socket.userId);
 });
-const Sockets = process.env.Sockets || 9000    
-io.listen(Sockets)
-const Port = 5000 || process.env.Port
-app.listen(Port,(req,res)=>{
-    console.log( `http://localhost:${Port}`)
-})
+const port = process.env.PORT || 5000;
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
