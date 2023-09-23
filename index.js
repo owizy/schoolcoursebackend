@@ -27,11 +27,12 @@ app.get('/',(req,res)=>{
 })
 
 // socket
-const io = new Server({cors:"https://futrolearnacademy-4wjr.onrender.com"})
+const io = new Server({cors:"https://futrolearnacademy-4wjr.onrender.com" ,    methods: ['GET', 'POST']})
+
 
 let users = [];
 io.on('connection', (socket)=>{
-     console.log('User connected', socket.id);
+    // console.log('User connected', socket.id);
     socket.on('addUser', userId => {
         const isUserExist = users.find(user => user.userId === userId);
         if (!isUserExist) {
@@ -95,10 +96,9 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
     });
     io.emit('getUsers', socket.userId);
 });
-
-const Port = process.env.Port || 8000
-const Sockets = process.env.Sockets || 9000      
+const Sockets =  9000 || process.env.Sockets  
 io.listen(Sockets)
-app.listen(Port,()=>{
-    console.log("Successful connected to : " + Port)
-}) 
+const Port = 5000 || process.env.Port
+app.listen(Port,(req,res)=>{
+    console.log( `http://localhost:${Port}`)
+})
