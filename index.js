@@ -27,7 +27,7 @@ app.get('/',(req,res)=>{
 })
 
 // socket
-const io = new Server({cors:"http://localhost:3000"})
+const io = new Server({cors:"https://futrolearnacademy-4wjr.onrender.com"})
 
 let users = [];
 io.on('connection', (socket)=>{
