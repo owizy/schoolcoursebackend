@@ -36,7 +36,7 @@ export  const LoginUser=async(req,res)=>{
        if(!email || !password) return res.status(400).json("All field")
        const Olduser = await UserModel.findOne({email})
        if(!Olduser) return res.status(400).json("Invalid email or password")
-       const Validatpassword = brcypt.compare(password,Olduser.password)
+       const Validatpassword = await brcypt.compare(password,Olduser.password)
     if(!Validatpassword) return res.status(400).json("Invalid email or password")
        const token = CreateToken(Olduser._id)
     return res.status(200).json({_id:Olduser._id ,fullname:Olduser.fullname,email:Olduser.email,UserType:Olduser.UserType,token})
