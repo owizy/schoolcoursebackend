@@ -32,7 +32,7 @@ const server = app.listen(Port,(req,res)=>{
     console.log( `http://localhost:${Port}`)
 })
 // socket
-const io = new Server(server,{pingTimeout:60000, cors:{ origin:"http://localhost:3000"} ,  methods: ['GET', 'POST'],
+const io = new Server(server,{pingTimeout:60000, cors:{ origin:"https://futrolearnacademy.onrender.com"} ,  methods: ['GET', 'POST'],
 })
 
 
