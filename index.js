@@ -6,7 +6,7 @@ import { UserRouter } from "./Routes/UserRoute.js"
 import MessageRoute from "./Routes/MessageRoute.js"
 import ConversationRoute from "./Routes/ControllerRoute.js"
 import UserModel from "./Models/UserModel.js"
-import { Server } from "socket.io";
+import { Server } from "socket.io"
 import ConversationModel from "./Models/Conversation.js"
 import MessageModel from "./Models/Message.js"
 dotenv.config()
@@ -16,6 +16,38 @@ mongoose.connect(process.env.Db_Connect).then(()=>{
 }).catch((err)=>{
     console.log(`connection failed due to:${err}`)
 })
+// ES7-style async middleware
+const notFound = async (req, res, next) => {
+  try {
+    // Your asynchronous logic here
+    const result = await someAsyncFunction();
+    if (!result) {
+      const error = new Error('Not Found');
+      error.status = 404;
+      throw error;
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+const errorHandler = async (err, req, res, next) => {
+  try {
+    // Your asynchronous error handling logic here
+    res.status(err.status || 500).json({
+      message: err.message || 'Internal Server Error',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Use the async middleware in your Express app
+app.use(notFound);
+app.use(errorHandler);
+
+
 // middleware
 app.use(express.json())
 app.use(cors())
@@ -26,8 +58,13 @@ app.get('/',(req,res)=>{
     res.send("Welcome to  FutrolearnAcademy")
 })
 
+const Port = 5000 || process.env.Port
+const server = app.listen(Port,(req,res)=>{
+    console.log( `http://localhost:${Port}`)
+})
 // socket
-const io = new Server({cors:"https://futrolearnacademy-4wjr.onrender.com" ,    methods: ['GET', 'POST']})
+const io = new Server(server,{pingTimeout:60000, cors:{ origin:"http://localhost:3000"} ,  methods: ['GET', 'POST'],
+})
 
 
 let users = [];
@@ -96,9 +133,5 @@ socket.on('sendMessage', async ({ senderId, receiverId, message, conversationId 
     });
     io.emit('getUsers', socket.userId);
 });
-const Sockets =  9000 || process.env.Sockets  
-io.listen(Sockets)
-const Port = 5000 || process.env.Port
-app.listen(Port,(req,res)=>{
-    console.log( `http://localhost:${Port}`)
-})
+// const Sockets =  9000 || process.env.Sockets  
+// io.listen(Sockets)
