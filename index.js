@@ -16,37 +16,6 @@ mongoose.connect(process.env.Db_Connect).then(()=>{
 }).catch((err)=>{
     console.log(`connection failed due to:${err}`)
 })
-// ES7-style async middleware
-const notFound = async (req, res, next) => {
-  try {
-    // Your asynchronous logic here
-    const result = await someAsyncFunction();
-    if (!result) {
-      const error = new Error('Not Found');
-      error.status = 404;
-      throw error;
-    }
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const errorHandler = async (err, req, res, next) => {
-  try {
-    // Your asynchronous error handling logic here
-    res.status(err.status || 500).json({
-      message: err.message || 'Internal Server Error',
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Use the async middleware in your Express app
-app.use(notFound);
-app.use(errorHandler);
-
 
 // middleware
 app.use(express.json())
