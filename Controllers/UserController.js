@@ -147,7 +147,7 @@ export const Forgetpasswordtransport=async(req,res)=>{
              to: `${email}`,
              subject: 'Reset Password Link',
              html: `<link style={{display:"flex",flexDirection:"column"}}>
-             <a>https://futrolearnacademy.onrender.com/reset_password/${user._id}/${token}</a>
+             <link>https://futrolearnacademy.onrender.com/reset_password/${user._id}/${token}</link>
              <p> This link will expire in the next 10minute</p>
              </link> `
            };
